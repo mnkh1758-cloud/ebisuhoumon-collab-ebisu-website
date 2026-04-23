@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isSelf(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function getUserClinicId() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.clinicId;
+    }
+
+    // users/{userId} は本人のみ read/create/update を許可
+    match /users/{userId} {
+      allow read, create, update: if isSelf(userId);
+      allow delete: if false;
+    }
+
+    // clinics/{clinicId} とその配下は、所属するクリニックのユーザーのみ許可
+    match /clinics/{clinicId} {
+      allow read, write: if isAuthenticated() && getUserClinicId() == clinicId;
+      
+      match /{document=**} {
+        allow read, write: if isAuthenticated() && getUserClinicId() == clinicId;
+      }
+    }
+
+    // それ以外は拒否
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

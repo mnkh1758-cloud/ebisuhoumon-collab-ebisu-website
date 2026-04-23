@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" width="400" height="800">
+  <rect width="400" height="800" fill="#ffffff"/>
+  <g stroke="#9ca3af" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Head -->
+    <path d="M200,60 C230,60 250,90 250,120 C250,150 230,170 200,180 C170,170 150,150 150,120 C150,90 170,60 200,60 Z"/>
+    <!-- Neck -->
+    <path d="M180,170 L180,200 M220,170 L220,200"/>
+    <!-- Shoulders & Torso -->
+    <path d="M180,200 C140,200 100,220 80,260 L50,420 L80,420 L100,300 L110,460 L110,500 C110,540 150,560 200,560 C250,560 290,540 290,500 L290,460 L300,300 L320,420 L350,420 L320,260 C300,220 260,200 220,200"/>
+    <!-- Shoulder blades -->
+    <path d="M140,240 Q160,280 140,320 M260,240 Q240,280 260,320" stroke-width="2" stroke="#cbd5e1"/>
+    <!-- Spine -->
+    <path d="M200,200 L200,450" stroke-width="2" stroke="#cbd5e1"/>
+    <!-- Glutes -->
+    <path d="M110,500 Q200,530 200,560 M290,500 Q200,530 200,560" stroke-width="2" stroke="#cbd5e1"/>
+    <!-- Legs -->
+    <path d="M150,550 L130,740 L160,740 L190,560 M250,550 L270,740 L240,740 L210,560"/>
+    <!-- Hands -->
+    <path d="M50,420 C40,440 70,450 80,420 M350,420 C360,440 330,450 320,420"/>
+    <!-- Feet -->
+    <path d="M130,740 L110,770 L160,770 L160,740 M270,740 L290,770 L240,770 L240,740"/>
+  </g>
+</svg>

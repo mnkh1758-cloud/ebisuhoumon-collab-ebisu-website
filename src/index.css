@@ -14,6 +14,12 @@
   }
 }
 
+@layer components {
+  .holiday-text {
+    @apply text-red-600;
+  }
+}
+
 @layer utilities {
   /* Custom scrollbar */
   ::-webkit-scrollbar {
@@ -48,5 +54,24 @@
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background: #e7e5e4;
     border-radius: 10px;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@media print {
+  @page {
+    size: A6 landscape;
+    margin: 5mm;
+  }
+  body {
+    background-color: white;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }

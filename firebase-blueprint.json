@@ -1,0 +1,487 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the system, primarily used for admin access control.",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The user's email address."
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin", "staff"],
+          "description": "The role of the user."
+        },
+        "clinicId": {
+          "type": "string",
+          "description": "The clinic this user belongs to, if applicable."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["email", "role", "createdAt"]
+    },
+    "Staff": {
+      "title": "Staff",
+      "description": "A staff member at a clinic.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the staff member."
+        },
+        "role": {
+          "type": "string",
+          "description": "The role/title of the staff member (e.g., 院長, 鍼灸師)."
+        },
+        "color": {
+          "type": "string",
+          "description": "Color code for the timeline display."
+        },
+        "order": {
+          "type": "number",
+          "description": "Display order in the timeline."
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Whether the staff member is currently active."
+        }
+      },
+      "required": ["name", "color", "order", "isActive"]
+    },
+    "Patient": {
+      "title": "Patient",
+      "description": "Patient information.",
+      "type": "object",
+      "properties": {
+        "patientId": {
+          "type": "number",
+          "description": "Unique patient number (1-100000)."
+        },
+        "name": {
+          "type": "string",
+          "description": "Patient's name."
+        },
+        "age": {
+          "type": "number",
+          "description": "Patient's age."
+        },
+        "gender": {
+          "type": "string",
+          "enum": ["male", "female", "other", "unanswered"],
+          "description": "Patient's gender."
+        },
+        "notes": {
+          "type": "string",
+          "description": "General notes about the patient."
+        },
+        "handoverMemo": {
+          "type": "string",
+          "description": "Memo shared among staff."
+        },
+        "visitHistory": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "History of visits."
+        },
+        "contraindications": {
+          "type": "string",
+          "description": "Contraindications for the patient."
+        },
+        "lastVisit": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "treatmentTrends": {
+          "type": "string",
+          "description": "Trends in treatment."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["patientId", "name", "notes", "visitHistory", "contraindications", "lastVisit", "createdAt", "updatedAt"]
+    },
+    "MedicalRecord": {
+      "title": "MedicalRecord",
+      "description": "A record of a patient's visit and treatment.",
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "description": "Date of the visit (YYYY-MM-DD)."
+        },
+        "symptoms": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of symptoms."
+        },
+        "treatmentContent": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of treatments performed."
+        },
+        "physicalCondition": {
+          "type": "string",
+          "description": "Free text describing physical condition."
+        },
+        "images": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Base64 encoded images (max 5)."
+        },
+        "aiRecord": {
+          "type": "string",
+          "description": "AI generated treatment record."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["date", "symptoms", "treatmentContent", "physicalCondition", "images", "aiRecord", "createdAt", "updatedAt"]
+    },
+    "Reservation": {
+      "title": "Reservation",
+      "description": "A booking for a treatment slot.",
+      "type": "object",
+      "properties": {
+        "staffId": {
+          "type": "string",
+          "description": "The ID of the staff member assigned to this reservation."
+        },
+        "date": {
+          "type": "string",
+          "description": "The date of the reservation in YYYY-MM-DD format."
+        },
+        "startTime": {
+          "type": "string",
+          "description": "The start time in HH:mm format."
+        },
+        "endTime": {
+          "type": "string",
+          "description": "The end time in HH:mm format."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["confirmed", "provisional", "cancelled"],
+          "description": "The status of the reservation."
+        },
+        "visitStatus": {
+          "type": "string",
+          "enum": ["not_arrived", "arrived", "waiting_for_payment", "completed"],
+          "description": "The visit status of the patient."
+        },
+        "patientId": {
+          "type": "number",
+          "description": "The ID of the patient."
+        },
+        "patientName": {
+          "type": "string",
+          "description": "The name of the patient (optional for provisional)."
+        },
+        "menu": {
+          "type": "string",
+          "description": "The treatment menu selected."
+        },
+        "memo": {
+          "type": "string",
+          "description": "Additional notes."
+        },
+        "insuranceAmount": {
+          "type": "number",
+          "description": "Insurance treatment amount."
+        },
+        "selfPayTreatmentAmount": {
+          "type": "number",
+          "description": "Self-pay treatment amount."
+        },
+        "optionAmount": {
+          "type": "number",
+          "description": "Option treatment amount."
+        },
+        "billingAmount": {
+          "type": "number",
+          "description": "Total billing amount."
+        },
+        "paymentMethod": {
+          "type": "string",
+          "enum": ["cash", "credit", "emoney", "credit_sale"],
+          "description": "Payment method."
+        },
+        "paymentMemo": {
+          "type": "string",
+          "description": "Memo for payment/receipt."
+        },
+        "paidAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time when payment was completed."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "checkout": {
+          "$ref": "#/entities/Checkout"
+        }
+      },
+      "required": ["staffId", "date", "startTime", "endTime", "status", "createdAt", "updatedAt"]
+    },
+    "Checkout": {
+      "title": "Checkout",
+      "description": "Details of a completed checkout.",
+      "type": "object",
+      "properties": {
+        "checkoutStatus": { "type": "string", "enum": ["completed", "pending"] },
+        "clearedAt": { "type": "string", "format": "date-time" },
+        "clearedBy": { "type": "string" },
+        "clearedByName": { "type": "string" },
+        "amounts": {
+          "type": "object",
+          "properties": {
+            "insuranceAmount": { "type": "number" },
+            "selfPayAmount": { "type": "number" },
+            "optionAmount": { "type": "number" },
+            "totalAmount": { "type": "number" }
+          }
+        },
+        "payment": {
+          "type": "object",
+          "properties": {
+            "paymentMethodType": { "type": "string" },
+            "paymentMethodDetail": { "type": "string" },
+            "paymentMemo": { "type": "string" }
+          }
+        },
+        "receivable": {
+          "type": "object",
+          "properties": {
+            "isReceivable": { "type": "boolean" },
+            "receivableAmount": { "type": "number" },
+            "receivableMemo": { "type": "string" }
+          }
+        },
+        "audit": {
+          "type": "object",
+          "properties": {
+            "createdAt": { "type": "string", "format": "date-time" },
+            "updatedAt": { "type": "string", "format": "date-time" },
+            "createdBy": { "type": "string" },
+            "createdByName": { "type": "string" }
+          }
+        }
+      }
+    },
+    "Hours": {
+      "title": "Hours",
+      "description": "Business hours for the clinic.",
+      "type": "object",
+      "properties": {
+        "openTime": {
+          "type": "string",
+          "description": "Opening time in HH:mm format."
+        },
+        "closeTime": {
+          "type": "string",
+          "description": "Closing time in HH:mm format."
+        }
+      },
+      "required": ["openTime", "closeTime"]
+    },
+    "Holiday": {
+      "title": "Holiday",
+      "description": "A specific date when the clinic is closed.",
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "description": "The date of the holiday in YYYY-MM-DD format."
+        },
+        "reason": {
+          "type": "string",
+          "description": "The reason for the holiday."
+        }
+      },
+      "required": ["date"]
+    },
+    "ClinicSettings": {
+      "title": "ClinicSettings",
+      "description": "Settings for a specific clinic.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "closeOnNationalHolidays": { "type": "boolean" },
+        "holidays": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "Questionnaire": {
+      "title": "Questionnaire",
+      "description": "A patient questionnaire for medical record generation.",
+      "type": "object",
+      "properties": {
+        "patientId": { "type": "string" },
+        "reservationId": { "type": "string" },
+        "symptom": { "type": "string" },
+        "whenText": { "type": "string" },
+        "whereText": { "type": "string" },
+        "triggerText": { "type": "string" },
+        "freeText": { "type": "string" },
+        "status": { "type": "string", "enum": ["draft", "submitted"] },
+        "aiGenerated": {
+          "type": "object",
+          "properties": {
+            "chiefComplaint": { "type": "string" },
+            "injuryMechanism": { "type": "string" }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["symptom", "whenText", "whereText", "triggerText", "status", "createdAt", "updatedAt"]
+    },
+    "Contract": {
+      "title": "Contract",
+      "description": "A SaaS contract for a clinic.",
+      "type": "object",
+      "properties": {
+        "clinicId": { "type": "string" },
+        "plan": { "type": "string", "enum": ["free", "basic", "pro"] },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "startDate": { "type": "string", "format": "date-time" },
+        "endDate": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clinicId", "plan", "status", "startDate", "endDate"]
+    },
+    "License": {
+      "title": "License",
+      "description": "A feature license for a clinic.",
+      "type": "object",
+      "properties": {
+        "clinicId": { "type": "string" },
+        "features": {
+          "type": "object",
+          "properties": {
+            "ai": { "type": "boolean" },
+            "signature": { "type": "boolean" },
+            "questionnaire": { "type": "boolean" }
+          }
+        }
+      },
+      "required": ["clinicId", "features"]
+    },
+    "FeatureFlags": {
+      "title": "FeatureFlags",
+      "description": "Feature toggles for a specific clinic.",
+      "type": "object",
+      "properties": {
+        "enableAI": { "type": "boolean" },
+        "enableSignature": { "type": "boolean" },
+        "enableQuestionnaire": { "type": "boolean" },
+        "enableHumanBodyDraw": { "type": "boolean" },
+        "enableImageComparison": { "type": "boolean" },
+        "enableAiLearning": { "type": "boolean" },
+        "enableReceipt": { "type": "boolean" },
+        "enableAccountingDetails": { "type": "boolean" },
+        "enableVoiceInput": { "type": "boolean" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/User"
+      },
+      "description": "Stores user profiles and roles for admin access."
+    },
+    "/clinics/{clinicId}/staff/{staffId}": {
+      "schema": {
+        "$ref": "#/entities/Staff"
+      },
+      "description": "Stores staff members for a specific clinic."
+    },
+    "/clinics/{clinicId}/patients/{docId}": {
+      "schema": {
+        "$ref": "#/entities/Patient"
+      },
+      "description": "Stores patient records for a specific clinic."
+    },
+    "/clinics/{clinicId}/patients/{docId}/records/{recordId}": {
+      "schema": {
+        "$ref": "#/entities/MedicalRecord"
+      },
+      "description": "Stores medical records for a specific patient."
+    },
+    "/clinics/{clinicId}/reservations/{reservationId}": {
+      "schema": {
+        "$ref": "#/entities/Reservation"
+      },
+      "description": "Stores reservations for a specific clinic."
+    },
+    "/clinics/{clinicId}/questionnaires/{questionnaireId}": {
+      "schema": {
+        "$ref": "#/entities/Questionnaire"
+      },
+      "description": "Stores questionnaires for medical record generation."
+    },
+    "/clinics/{clinicId}/settings/business": {
+      "schema": {
+        "$ref": "#/entities/ClinicSettings"
+      },
+      "description": "Stores business settings for a specific clinic."
+    },
+    "/clinics/{clinicId}/settings/hours": {
+      "schema": {
+        "$ref": "#/entities/Hours"
+      },
+      "description": "Stores business hours for a specific clinic."
+    },
+    "/clinics/{clinicId}/settings/holidays": {
+      "schema": {
+        "$ref": "#/entities/Holiday"
+      },
+      "description": "Stores holidays for a specific clinic."
+    },
+    "/contracts/{contractId}": {
+      "schema": {
+        "$ref": "#/entities/Contract"
+      },
+      "description": "Stores SaaS contracts."
+    },
+    "/licenses/{licenseId}": {
+      "schema": {
+        "$ref": "#/entities/License"
+      },
+      "description": "Stores feature licenses."
+    },
+    "/clinics/{clinicId}/feature_flags": {
+      "schema": {
+        "$ref": "#/entities/FeatureFlags"
+      },
+      "description": "Stores feature toggles for a specific clinic."
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapPin, Phone, ExternalLink, Clock, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { PropertyGallery } from '../src/components/PropertyGallery';
 
 // Custom LINE Icon Component
 const LineIcon = ({ className }: { className?: string }) => (
@@ -16,21 +17,24 @@ interface Clinic {
   address: string;
   phone: string;
   mapQuery: string;
-  qrCode?: string;
-  qrLabel?: string;
-  image: string;
+  images: string[];
   lineUrl: string;
 }
 
 const CLINICS: Clinic[] = [
   {
-    id: 'daito',
+    id: 'daitou',
     name: '大塔院',
     englishName: 'Daito Seikotuin',
     address: '長崎県佐世保市大塔町1730-15',
     phone: '0956-37-9110',
     mapQuery: '長崎県佐世保市大塔町1730-15+えびす鍼灸整骨院大塔院',
-    image: 'https://github.com/ebisuhoumon-collab/ebisuhoumon-collab-ebisu-website/blob/main/daitougaikan.jpg.jpg?raw=true',
+    images: [
+      'https://github.com/ebisuhoumon-collab/ebisuhoumon-collab-ebisu-website/blob/main/daitougaikan.jpg.webp?raw=true',
+      'https://picsum.photos/seed/daito1/1600/1000',
+      'https://picsum.photos/seed/daito2/1600/1000',
+      'https://picsum.photos/seed/daito3/1600/1000'
+    ],
     lineUrl: 'https://lin.ee/VDIACsk',
   },
   {
@@ -40,11 +44,12 @@ const CLINICS: Clinic[] = [
     address: '長崎県佐世保市勝海町261-6',
     phone: '0956-56-3390',
     mapQuery: '長崎県佐世保市勝海町261-6+えびす鍼灸整骨院早岐院',
-    // Using a placeholder QR code image service since the actual image file cannot be saved directly.
-    // In a real scenario, replace this URL with the actual path to the uploaded QR code image.
-    qrCode: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/ti/p/placeholder', 
-    qrLabel: 'ご予約はこちら',
-    image: 'https://github.com/ebisuhoumon-collab/ebisuhoumon-collab-ebisu-website/blob/main/haikigaikan.jpg?raw=true',
+    images: [
+      'https://github.com/ebisuhoumon-collab/ebisuhoumon-collab-ebisu-website/blob/main/haikigaikan.webp?raw=true',
+      'https://picsum.photos/seed/haiki1/1600/1000',
+      'https://picsum.photos/seed/haiki2/1600/1000',
+      'https://picsum.photos/seed/haiki3/1600/1000'
+    ],
     lineUrl: 'https://lin.ee/SAn5hgK',
   },
   {
@@ -54,7 +59,12 @@ const CLINICS: Clinic[] = [
     address: '長崎県佐世保市矢峰町223-5',
     phone: '0956-56-3921',
     mapQuery: '長崎県佐世保市矢峰町223-5+えびす鍼灸整骨院矢峰院',
-    image: 'https://github.com/ebisuhoumon-collab/ebisuhoumon-collab-ebisu-website/blob/main/yaminegaikan.jpg.jpg?raw=true',
+    images: [
+      'https://github.com/ebisuhoumon-collab/ebisuhoumon-collab-ebisu-website/blob/main/yaminegaikan.jpg.webp?raw=true',
+      'https://picsum.photos/seed/yamine1/1600/1000',
+      'https://picsum.photos/seed/yamine2/1600/1000',
+      'https://picsum.photos/seed/yamine3/1600/1000'
+    ],
     lineUrl: 'https://lin.ee/DHQcTRp',
   },
 ];
@@ -95,20 +105,10 @@ export const Access: React.FC = () => {
           {CLINICS.map((clinic, index) => (
             <div 
               key={index} 
-              className="bg-white rounded-[2rem] p-8 shadow-soft hover:shadow-xl transition-all duration-300 group hover:-translate-y-1 border border-stone-100 flex flex-col h-full overflow-hidden"
+              className="bg-white rounded-[2rem] p-8 shadow-soft hover:shadow-xl transition-all duration-300 group border border-stone-100 flex flex-col h-full overflow-hidden"
             >
-              <div className="relative h-48 overflow-hidden rounded-2xl -mx-4 -mt-4 mb-8 shadow-md">
-                <div className="absolute inset-0 bg-stone-900/20 group-hover:bg-stone-900/10 transition-colors z-10"></div>
-                <img 
-                  src={clinic.image} 
-                  alt={clinic.name} 
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute bottom-4 left-4 z-20">
-                  <span className="text-white text-xs font-bold tracking-widest uppercase bg-emerald-600/90 px-3 py-1 rounded-full backdrop-blur-sm shadow-sm">
-                    {clinic.englishName}
-                  </span>
-                </div>
+              <div className="mb-8">
+                <PropertyGallery images={clinic.images} clinicName={clinic.name} />
               </div>
 
               <div className="flex items-center justify-between mb-8 pb-6 border-b border-stone-100">
@@ -160,25 +160,6 @@ export const Access: React.FC = () => {
                     <span>LINEでお問い合わせ</span>
                   </a>
                 </div>
-                
-                {/* QR Code Section */}
-                {clinic.qrCode && (
-                  <div className="bg-emerald-50/50 rounded-xl p-4 border border-emerald-100 flex flex-col items-center text-center">
-                    <p className="text-emerald-800 font-bold text-sm mb-3 flex items-center gap-2">
-                       {clinic.qrLabel || 'QRコード'}
-                    </p>
-                    <div className="bg-white p-2 rounded-lg shadow-sm">
-                      <img 
-                        src={clinic.qrCode} 
-                        alt={`${clinic.name} QR Code`} 
-                        className="w-24 h-24 object-contain"
-                      />
-                    </div>
-                    <p className="text-[10px] text-stone-500 mt-2">
-                      スマホで読み取って予約
-                    </p>
-                  </div>
-                )}
               </div>
 
               <div className="mt-8 pt-6 border-t border-stone-100 space-y-4">

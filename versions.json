@@ -1,0 +1,29 @@
+{
+  "saves": [
+    {
+      "name": "えびすHP01",
+      "timestamp": "2026-02-24T04:10:44-08:00",
+      "description": "User requested save point."
+    },
+    {
+      "name": "えびすHP１０",
+      "timestamp": "2026-04-12T03:17:00Z",
+      "description": "Smart Ledger 外販SaaS設計 & 改善基盤実装完了"
+    },
+    {
+      "name": "えびすHP１１",
+      "timestamp": "2026-04-12T03:19:30Z",
+      "description": "Smart Ledger 外販SaaS設計 & 改善基盤実装完了（最終保存）"
+    },
+    {
+      "name": "えびすHP12",
+      "timestamp": "2026-04-13T10:35:00Z",
+      "description": "HumanBodyDrawModalの画像表示不具合修正（破損webpファイルの差し替え）"
+    },
+    {
+      "name": "えびすHP13",
+      "timestamp": "2026-04-13T11:59:00Z",
+      "description": "カルテ→会計導線完成、公開前チェック準備"
+    }
+  ]
+}
